@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const app = require('express')();
 
-const allowedOrigins = ['http://localhost:3000','https://digitalmarketingcompanybangalore.in'];
+const allowedOrigins = ['http://localhost:3000','https://digitalmarketingcompanybangalore.in','https://signet.edu.au'];
 
 app.use(
   cors({
