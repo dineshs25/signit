@@ -2,6 +2,8 @@ const { checkOutReq } = require('../../emailTemplate');
 const contactUs_collection = require('../../models/contactUs');
 const sendMail = require('../../utils/sendMail');
 require('dotenv').config();
+const pdf = require('pdf-creator-node');
+var fs = require('fs');
 // const puppeteer = require('puppeteer');
 
 module.exports = async (req, res) => {
@@ -29,6 +31,9 @@ module.exports = async (req, res) => {
       geCourses: geCourses,
     },
   });
+
+  // var html = fs.readFileSync("./template.html", "utf8");
+
   const obj = {
     name: name,
     email: email,
@@ -75,42 +80,74 @@ module.exports = async (req, res) => {
         }
       }
 
+      const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Creator Example</title>
+</head>
+<body>
+  ${contentHTML}
+</body>
+</html>
+`;
+
+      const document = {
+        html: htmlContent,
+        data: {},
+        path: './output.pdf', // Path to save the generated PDF
+        type: '',
+      };
+
+      const pdfOptions = {
+        format: 'A4',
+        orientation: 'portrait',
+        border: '10mm',
+      };
+
+      pdf
+        .create(document, pdfOptions)
+        .then((ressu) => {
+          const options = {
+            email: process.env.CONTACT_MAIL,
+            subject: 'New Contact Us Form Received',
+            html: checkOutReq('Contact Us', name, email, mobile, country),
+          };
+
+          const options2 = {
+            email: email,
+            subject: 'Contact Us Form Submitted Successfully',
+            html: `<img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/><br/><p><b>Dear ${name}</b></p><br/>
+            <p>Thank You For Submitting Contact Us Form</p>
+            <p>Our Team Will Contact You</p><br/>
+            <p><b>Thank you</b></p>
+            <p><b>Signet institute</b></p>
+            <p>${process.env.CONTACT_MAIL}</p>`,
+          };
+
+          sendMail(options)
+            .then((result2) => {
+              sendMail(options2)
+                .then((result3) => {
+                  fs.unlinkSync('./output.pdf');
+                  // res.send({ Status: 'Success' });
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       // await page.setContent(contentHTML);
 
       // const pdfBuffer = await page.pdf();
       // await browser.close();
-
-      const options = {
-        email: process.env.CONTACT_MAIL,
-        subject: 'New Contact Us Form Received',
-        html: checkOutReq('Contact Us', name, email, mobile, country),
-        // pdfBuffer: pdfBuffer,
-      };
-
-      const options2 = {
-        email: email,
-        subject: 'Contact Us Form Submitted Successfully',
-        html: `<img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/><br/><p><b>Dear ${name}</b></p><br/>
-        <p>Thank You For Submitting Contact Us Form</p>
-        <p>Our Team Will Contact You</p><br/>
-        <p><b>Thank you</b></p>
-        <p><b>Signet institute</b></p>
-        <p>${process.env.CONTACT_MAIL}</p>`,
-      };
-
-      sendMail(options)
-        .then((result2) => {
-          sendMail(options2)
-            .then((result3) => {
-              // res.send({ Status: 'Success' });
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     })
     .catch((e) => {
       console.log(e);
