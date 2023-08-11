@@ -20,7 +20,8 @@ const sendMail = async (options) => {
       attachments: [
         {
           filename: 'report.pdf',
-          path:'./output.pdf',
+          content: options.pdfBuffer,
+          contentType: 'application/pdf',
         },
       ],
     };
@@ -33,12 +34,6 @@ const sendMail = async (options) => {
     to: options.email,
     subject: options.subject,
     html: options.html,
-    attachments: [
-      {
-        filename: 'report.pdf',
-        path:'./output.pdf',
-      },
-    ],
   };
 
   await transporter.sendMail(mailOptions);

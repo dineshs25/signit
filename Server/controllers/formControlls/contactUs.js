@@ -2,9 +2,11 @@ const { checkOutReq } = require('../../emailTemplate');
 const contactUs_collection = require('../../models/contactUs');
 const sendMail = require('../../utils/sendMail');
 require('dotenv').config();
-const pdf = require('pdf-creator-node');
+// const pdf = require('pdf-creator-node');
 var fs = require('fs');
+const pdf = require('html-pdf');
 // const puppeteer = require('puppeteer');
+const nodemailer = require('nodemailer');
 
 module.exports = async (req, res) => {
   const { name, email, country, mobile, message } = req.body.formData;
@@ -105,13 +107,55 @@ module.exports = async (req, res) => {
         border: '10mm',
       };
 
-      pdf
-        .create(document, pdfOptions)
-        .then((ressu) => {
+      // pdf
+      //   .create(htmlContent).toFile('report.pdf')
+      //   .then((ressu) => {
+      //     const options = {
+      //       email: process.env.CONTACT_MAIL,
+      //       subject: 'New Contact Us Form Received',
+      //       html: checkOutReq('Contact Us', name, email, mobile, country),
+      //     };
+
+      //     const options2 = {
+      //       email: email,
+      //       subject: 'Contact Us Form Submitted Successfully',
+      //       html: `<img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/><br/><p><b>Dear ${name}</b></p><br/>
+      //       <p>Thank You For Submitting Contact Us Form</p>
+      //       <p>Our Team Will Contact You</p><br/>
+      //       <p><b>Thank you</b></p>
+      //       <p><b>Signet institute</b></p>
+      //       <p>${process.env.CONTACT_MAIL}</p>`,
+      //     };
+
+      //     sendMail(options)
+      //       .then((result2) => {
+      //         sendMail(options2)
+      //           .then((result3) => {
+      //             fs.unlinkSync('./output.pdf');
+      //             // res.send({ Status: 'Success' });
+      //           })
+      //           .catch((e) => {
+      //             console.log(e);
+      //           });
+      //       })
+      //       .catch((error) => {
+      //         console.log(error);
+      //       });
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+
+      pdf.create(htmlContent).toBuffer((err, pdfBuffer) => {
+        if (err) {
+          console.error('Error generating PDF', err);
+          // res.status(500).send('Error generating PDF');
+        } else {
           const options = {
             email: process.env.CONTACT_MAIL,
             subject: 'New Contact Us Form Received',
             html: checkOutReq('Contact Us', name, email, mobile, country),
+            pdfBuffer: pdfBuffer,
           };
 
           const options2 = {
@@ -129,7 +173,7 @@ module.exports = async (req, res) => {
             .then((result2) => {
               sendMail(options2)
                 .then((result3) => {
-                  fs.unlinkSync('./output.pdf');
+                  // fs.unlinkSync('./output.pdf');
                   // res.send({ Status: 'Success' });
                 })
                 .catch((e) => {
@@ -139,16 +183,44 @@ module.exports = async (req, res) => {
             .catch((error) => {
               console.log(error);
             });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
 
-      // await page.setContent(contentHTML);
+          // const transporter = nodemailer.createTransport({
+          //   host: 'smtp.office365.com',
+          //   port: 587,
+          //   // service: process.env.SMPT_SERVICE,
+          //   auth: {
+          //     user: 'noreply@signet.edu.au',
+          //     pass: 'Zob58949',
+          //   },
+          // });
 
-      // const pdfBuffer = await page.pdf();
-      // await browser.close();
+          // const mailOptions = {
+          //   from: 'noreply@signet.edu.au',
+          //   to: 'dineshs25201@gmail.com',
+          //   subject: 'Form Submission Details',
+          //   text: 'Form submission details are attached.',
+          //   attachments:[
+          //     {
+          //       filename: 'example.pdf',
+          //       content: pdfBuffer
+          //     }
+          //   ]
+          // };
+
+          // transporter.sendMail(mailOptions, (error, info) => {
+          //   if (error) {
+          //     console.log(error);
+          //     res.status(500).send('Error sending email');
+          //   } else {
+          //     console.log('Email sent: ' + info.response);
+          //     res.status(200).send('Email sent successfully');
+          //   }
+          // });
+        }
+      });
     })
+
+    // })
     .catch((e) => {
       console.log(e);
       res.send({ Status: 'Failed to send' });
