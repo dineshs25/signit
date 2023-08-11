@@ -2,7 +2,7 @@ const { changeTemp } = require('../../emailTemplate');
 const csdf_collection = require('../../models/csdf');
 const sendMail = require('../../utils/sendMail');
 require('dotenv').config();
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 
 module.exports = async (req, res) => {
   const {
@@ -224,10 +224,10 @@ module.exports = async (req, res) => {
     .then(async (result) => {
       res.send({ Status: 'Success', result: result });
       // Generate PDF
-      const browser = await puppeteer.launch({
-        headless: 'new',
-      });
-      const page = await browser.newPage();
+      // const browser = await puppeteer.launch({
+      //   headless: 'new',
+      // });
+      // const page = await browser.newPage();
 
       let contentHTML =
         '<div style="display:flex; justify-content:center; padding-top:10px;"><img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/></div>';
@@ -257,10 +257,10 @@ module.exports = async (req, res) => {
 
       iterateObject(obj, 0);
 
-      await page.setContent(contentHTML);
+      // await page.setContent(contentHTML);
 
-      const pdfBuffer = await page.pdf();
-      await browser.close();
+      // const pdfBuffer = await page.pdf();
+      // await browser.close();
 
       const name = firstName + ' ' + lastName;
       const mobileNew = mobCode + ' ' + mobile;
@@ -274,7 +274,7 @@ module.exports = async (req, res) => {
           email,
           mobileNew
         ),
-        pdfBuffer: pdfBuffer,
+        // pdfBuffer: pdfBuffer,
       };
       sendMail(options)
         .then((result2) => {})

@@ -17,13 +17,13 @@ const sendMail = async (options) => {
       to: options.email,
       subject: options.subject,
       html: options.html,
-      attachments: [
-        {
-          filename: 'report.pdf',
-          content: options.pdfBuffer,
-          contentType: 'application/pdf',
-        },
-      ],
+      // attachments: [
+      //   {
+      //     filename: 'report.pdf',
+      //     content: options.pdfBuffer,
+      //     contentType: 'application/pdf',
+      //   },
+      // ],
     };
 
     await transporter.sendMail(mailOptions);

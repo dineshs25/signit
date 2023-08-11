@@ -4,7 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const _ = require('lodash');
 const sendMail = require('../../utils/sendMail');
 const { checkOutReq } = require('../../emailTemplate');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 
 module.exports = async (req, res) => {
   const {
@@ -409,8 +409,8 @@ module.exports = async (req, res) => {
                               result: result,
                             });
                             // Generate PDF
-                            const browser = await puppeteer.launch();
-                            const page = await browser.newPage();
+                            // const browser = await puppeteer.launch();
+                            // const page = await browser.newPage();
 
                             let contentHTML =
                               '<div style="display:flex; justify-content:center; padding-top:10px;"><img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/></div>';
@@ -458,10 +458,10 @@ module.exports = async (req, res) => {
                               }
                             }
 
-                            await page.setContent(contentHTML);
+                            // await page.setContent(contentHTML);
 
-                            const pdfBuffer = await page.pdf();
-                            await browser.close();
+                            // const pdfBuffer = await page.pdf();
+                            // await browser.close();
 
                             const newMobile = mobCode + ' ' + mobile;
                             const newName = firstName + ' ' + lastName;
@@ -477,7 +477,7 @@ module.exports = async (req, res) => {
                                 newMobile,
                                 country
                               ),
-                              pdfBuffer: pdfBuffer,
+                              // pdfBuffer: pdfBuffer,
                             };
 
                             const options2 = {
@@ -649,8 +649,8 @@ module.exports = async (req, res) => {
                               result: result,
                             });
                             // Generate PDF
-                            const browser = await puppeteer.launch();
-                            const page = await browser.newPage();
+                            // const browser = await puppeteer.launch();
+                            // const page = await browser.newPage();
 
                             let contentHTML =
                               '<div style="display:flex; justify-content:center; padding-top:10px;"><img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/></div>';
@@ -698,10 +698,10 @@ module.exports = async (req, res) => {
                               }
                             }
 
-                            await page.setContent(contentHTML);
+                            // await page.setContent(contentHTML);
 
-                            const pdfBuffer = await page.pdf();
-                            await browser.close();
+                            // const pdfBuffer = await page.pdf();
+                            // await browser.close();
 
                             const newMobile = mobCode + ' ' + mobile;
                             const newName = firstName + ' ' + lastName;
@@ -717,7 +717,7 @@ module.exports = async (req, res) => {
                                 newMobile,
                                 country
                               ),
-                              pdfBuffer: pdfBuffer,
+                              // pdfBuffer: pdfBuffer,
                             };
 
                             const options2 = {
@@ -882,8 +882,8 @@ module.exports = async (req, res) => {
                           result: result,
                         });
                         // Generate PDF
-                        const browser = await puppeteer.launch();
-                        const page = await browser.newPage();
+                        // const browser = await puppeteer.launch();
+                        // const page = await browser.newPage();
 
                         let contentHTML =
                           '<div style="display:flex; justify-content:center; padding-top:10px;"><img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/></div>';
@@ -930,10 +930,10 @@ module.exports = async (req, res) => {
                           }
                         }
 
-                        await page.setContent(contentHTML);
+                        // await page.setContent(contentHTML);
 
-                        const pdfBuffer = await page.pdf();
-                        await browser.close();
+                        // const pdfBuffer = await page.pdf();
+                        // await browser.close();
 
                         const newMobile = mobCode + ' ' + mobile;
                         const newName = firstName + ' ' + lastName;
@@ -949,7 +949,7 @@ module.exports = async (req, res) => {
                             newMobile,
                             country
                           ),
-                          pdfBuffer: pdfBuffer,
+                          // pdfBuffer: pdfBuffer,
                         };
 
                         const options2 = {
@@ -1128,8 +1128,8 @@ module.exports = async (req, res) => {
                                   result: result,
                                 });
                                 // Generate PDF
-                                const browser = await puppeteer.launch();
-                                const page = await browser.newPage();
+                                // const browser = await puppeteer.launch();
+                                // const page = await browser.newPage();
 
                                 let contentHTML =
                                   '<div style="display:flex; justify-content:center; padding-top:10px;"><img src="https://digitalmarketingcompanybangalore.in/logo.png" width="200px" alt="Logo"/></div>';
@@ -1180,10 +1180,10 @@ module.exports = async (req, res) => {
                                   }
                                 }
 
-                                await page.setContent(contentHTML);
+                                // await page.setContent(contentHTML);
 
-                                const pdfBuffer = await page.pdf();
-                                await browser.close();
+                                // const pdfBuffer = await page.pdf();
+                                // await browser.close();
 
                                 const newMobile = mobCode + ' ' + mobile;
                                 const newName = firstName + ' ' + lastName;
@@ -1199,7 +1199,7 @@ module.exports = async (req, res) => {
                                     newMobile,
                                     country
                                   ),
-                                  pdfBuffer: pdfBuffer,
+                                  // pdfBuffer: pdfBuffer,
                                 };
 
                                 const options2 = {
