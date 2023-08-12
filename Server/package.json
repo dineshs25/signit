@@ -26,6 +26,7 @@
     "nodemailer": "^6.9.4",
     "nodemon": "^2.0.22",
     "pdf-creator-node": "^2.3.5",
-    "pdfkit": "^0.13.0"
+    "pdfkit": "^0.13.0",
+    "puppeteer": "^21.0.3"
   }
 }
